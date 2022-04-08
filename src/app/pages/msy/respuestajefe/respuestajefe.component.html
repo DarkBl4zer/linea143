@@ -1,0 +1,51 @@
+<div class="card" >
+    <h5 class="card-header">Detalles de la solicitud</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ribbon-wrapper card" >
+                    <div class="ribbon ribbon-bookmark ribbon-default">Informacion referente al servicio solicitado</div>
+                    <ul class="list-group list-group-flush" *ngFor="let item of detalleMesaDeAyuda">
+                        <li class="list-group-item">N° Mesa de ayuda {{item.numMesaAyuda}}</li>
+                        <li class="list-group-item">Asistencia: {{item.asistencia}}</li>
+                        <li class="list-group-item">Servicio: {{item.servicio}}</li>
+                        <li class="list-group-item">Detalle de la solicitud: {{item.detalleSolicitud}}</li>
+                        <li class="list-group-item">Funcionario Solicitante: {{item.solicitante}}</li>
+                      </ul>
+                </div>
+            </div>
+        </div>
+        <form class="form-horizontal form-material" [formGroup]="formaR" (keydown.enter)="$event.preventDefault()" autocomplete="off" (ngSubmit)="guardar()">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-floating">
+                        <textarea class="form-control form-control-sm" 
+                            oninput="this.value = this.value.toUpperCase()"
+                            id="DetalleRepuesta" placeholder="DetalleRepuesta" 
+                            formControlName="DetalleRepuesta"
+                            [class.is-invalid]="nombreInvalido('DetalleRepuesta')"></textarea>
+                        <label for="DetalleRepuesta">1. Detalle de la respuesta *</label> 
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <select class="form-select" id="aprobacion" formControlName="aprobacion">
+                            <option value="" selected>Seleccione una opcion</option>
+                            <option value="0" selected>Aprobar</option>
+                            <option value="1" selected>Rechazar</option>
+                        </select>
+                        <label for="aprobacion">1.1 Decision*</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button class="btn btn-primary btn-block btn-rounded" type="submit">Registrar Respuesta</button>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </form>
+    </div>
+  </div>

@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Aplicaciones del sistema </h4>
+                <h6 class="card-subtitle">Aplicaciones para el uso y acceso en el sistema</h6>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <a routerLink="/dashboard/msy_menu">
+                                    <button type="button" class="btn btn-primary position-relative">
+                                        Mesa de ayuda
+                                        <span class="position-absolute top-0 start-0 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                        </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="list-group-item" *ngIf="dependencia===394">
+                                <a routerLink="/dashboard/uct_frmRegistro">
+                                    <button type="button" class="btn btn-primary position-relative">
+                                        Linea 143
+                                        <span class="position-absolute top-0 start-0 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                        </span>
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

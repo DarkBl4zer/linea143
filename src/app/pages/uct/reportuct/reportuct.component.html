@@ -1,0 +1,88 @@
+<div class="row d-flex justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form class="form-horizontal form-material" (keydown.enter)="$event.preventDefault()" autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>1.Fecha Inicial *</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="fechaI" [class.is-invalid]="nombreInvalido('fechaI')">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>2.Fecha Final *</mat-label>
+                                <input matInput [matDatepicker]="pickerD" formControlName="fechaF" [class.is-invalid]="nombreInvalido('fechaF')">
+                                <mat-datepicker-toggle matSuffix [for]="pickerD"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #pickerD></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-outline-primary"><i class="mdi mdi-file-find"></i><span>Consultar</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row d-flex justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <app-loading msg="Cargando información" *ngIf="!msg"></app-loading>
+                <a *ngIf="!loading" style="cursor: pointer" (click)="exportexcel()">
+                    <button type="button" class="btn btn-outline-primary">Descargar <i class="mdi mdi-file-excel"></i></button>
+                </a>
+                <div *ngIf="!loading" class="table-responsive">
+                    <table id="demo-foo-addrow" datatable [dtOptions]="dtOptions" class="table table-striped table-sm" data-page-size="10" style="width: 100%;">
+                        <thead>
+                            <tr class="footable-sortable fs-6">
+                                <th>Datos Solicitante<span class="footable-sort-indicator"></span></th>
+                                <th>Datos de contacto<span class="footable-sort-indicator"></span></th>
+                                <th>Datos de solicitud<span class="footable-sort-indicator"></span></th>
+                                <th>Actual responsable<span class="footable-sort-indicator"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="small" *ngFor="let item of historico">
+                                <td class="text-start">
+                                    <ul>
+                                        <li>Numero de Solicitud: <br> {{item.num_solicitud}} </li>
+                                        <li>Tipo y numero de identificacion: <br>{{item.sicsigla}} No {{item.id_usuario_reg}}</li>
+                                        <li>Nombres del solicitante: <br>{{item.texto01}} {{item.texto02}} {{item.texto03}} {{item.texto04}}</li>
+                                    </ul>
+                                </td>
+                                <td class="text-start">
+                                    <ul>
+                                        <li>Telefono(s): {{item.teluno}} {{item.teldos}}</li>
+                                        <li>Contacto: {{item.email}}</li>
+                                        <li>Direccion: {{item.direc}}</li>
+                                    </ul>
+                                </td>
+                                <td class="text-start">
+                                    <ul>
+                                        <li>Unidad de gestion: {{item.unidadges}}</li>
+                                        <li>Jornada: {{item.jornada}}</li>
+                                        <li>Forma de ingreso: {{item.formaing}}</li>
+                                        <li>Tipo de atencion: {{item.tipoaten}}</li>
+                                    </ul>
+                                </td>
+                                <td class="text-start">
+                                    <ul>
+                                        <li>{{item.funactnom}} {{item.funactape}}</li>
+                                        <li>{{item.estado_tramite == "Finalizado" ? 'Finalizado' : 'Activo'}} </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

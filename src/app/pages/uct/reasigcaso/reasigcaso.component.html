@@ -1,0 +1,136 @@
+<div class="card">
+    <div class="card-body">
+        <h4>Reasignar caso</h4>
+        <div class="r-panel-body">
+            <div class="row">
+                <div class="col-12">
+                    <form class="form-horizontal form-material" autocomplete="off" [formGroup]="formaE">
+                        <div class="form-floating">
+                            <select class="form-select" id="idFunc" formControlName="idFunc" (ngModelChange)="cambioFuncionario($event)">
+                                <option selected>Seleccione una opcion</option>
+                                <option *ngFor="let item of funcionariosL" value="{{ item.consec }}">{{ item.nombre }} {{ item.apellido }}</option>
+                            </select>
+                            <label for="idFunc">1. Funcionario *</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table *ngIf="datosExiste" class="table table-striped table-sm" style="width: 100%;">
+            <thead>
+                <tr class="footable-sortable fs-6">
+                    <th width="8%">Solicitud<span class="footable-sort-indicator"></span></th>
+                    <th width="55%">Informacion del proceso<span class="footable-sort-indicator"></span></th>
+                    <th width="5%">Dias <br> habiles<span class="footable-sort-indicator"></span></th>
+                    <th width="5%">Dias <br> calendario<span class="footable-sort-indicator"></span></th>
+                    <th class="text-center" width="27%">ACCIONES<span class="footable-sort-indicator"></span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="small" *ngFor="let item of historico">
+                    <td class="text-center">{{item.num_solicitud}}</td>
+                    <td>
+                        <div class="row align-items-center">
+                            <div class="col-md-10">
+                                <small class="text-left">
+                                        Vigencia: {{item.vigencia}} 
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        Fecha de Registro: {{item.fec_solicitud_tramite | date: 'dd/MM/YYYY'}} 
+                                    </small><br> {{item.nom_tramite}}
+                            </div>
+                            <div class="col-md-2">
+                                <ng-template #popContent>{{ item.texto08 | slice:0:110 }} </ng-template>
+                                <ng-template #popTitle><b>Objeto/Motivo </b></ng-template>
+                                <button type="button btn-sm rounded-pill" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" [popoverTitle]="PopoverOnRight" container="body" class="btn btn-primary">
+                                        <span class="mdi mdi-file-find"></span>
+                                    </button>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center"> 22 </td>
+                    <td class="text-center">{{item.dias_calendario}}</td>
+                    <td class="align-middle text-center">
+                        <span class="label label-primary" (click)="openXL(contenido,item.num_solicitud)"><span class="mdi mdi-folder-multiple"></span> Regresar a bandeja</span>
+                        <!--<app-modalreasignar sinporc={{item.sinproc}}></app-modalreasignar>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<ng-template #contenido let-modal>
+    <div class="modal-header label-themecolor" style="text-align: center; display: block ruby; ">
+        <h4 class="modal-title" style="color: white;">
+            SINPROC #{{sinproc}}
+        </h4>
+        <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <app-loading msg="Cargando la información del caso" *ngIf="loadingData"></app-loading>
+    </div>
+
+    <div class="modal-body">
+        <div *ngIf="!loadingData" class="row">
+            <div class="col-md-6">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Datos básicos de la solicitud </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Forma de ingreso: {{formaIng}}</li>
+                            <li class="list-group-item">Unidad de gestion: {{unidadGes}}</li>
+                        </ul>
+                    </div>
+                </li>
+                <br>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Agendamiento</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Fecha: {{fecha | date: 'dd/MM/YYYY'}}</li>
+                            <li class="list-group-item">Tema: {{tema}}</li>
+                            <li class="list-group-item">Jornada: {{jornada}}</li>
+                            <li class="list-group-item">Observacion: <br> {{observacion}}</li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+            <div class="col-md-6">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Datos del solicitante </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Nombre: {{nombreApe}} </li>
+                            <li class="list-group-item">{{numDoc}}</li>
+                            <li class="list-group-item">Tel: {{tel}}</li>
+                            <li class="list-group-item">Email: {{email}}</li>
+                            <li class="list-group-item">Direccion: {{direc}}</li>
+                            <li class="list-group-item">Localidad: {{localidada}}</li>
+                            <li class="list-group-item">Nacionalidad: {{nacionalidada}}</li>
+                            <li class="list-group-item">Genero: {{genero}}</li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <form class="form-horizontal form-material" autocomplete="off">
+                    <div class="form-floating">
+                        <textarea rows="4" cols="50" class="form-control" #titleInput [(ngModel)]="observacionC" id="observacionC"></textarea>
+                        <label for="observacionC">1. Motivo del regreso </label>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary btn-block btn-rounded" type="button" (click)="guardar(titleInput.value)">Reasignar caso</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center; display: block">
+        <button type="button" class="btn btn-danger" (click)="modal.close()">Cerrar modulo</button>
+    </div>
+</ng-template>
+
+<app-uctadmin></app-uctadmin>

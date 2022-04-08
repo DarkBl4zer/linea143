@@ -1,0 +1,76 @@
+<ng-template #contenido let-modal>
+    <div class="modal-header label-themecolor" style="text-align: center; display: block ruby; ">
+        <h4 class="modal-title" style="color: white;">
+            SINPROC #{{sinproc}}
+        </h4>
+        <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <app-loading msg="Cargando la información del caso" *ngIf="loadingData"></app-loading>
+    </div>
+
+    <div class="modal-body">
+        <div *ngIf="!loadingData" class="row">
+            <div class="col-md-4">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Datos básicos de la solicitud </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Forma de ingreso: {{formaIng}}</li>
+                            <li class="list-group-item">Unidad de gestion: {{unidadGes}}</li>
+                        </ul>
+                    </div>
+                </li>
+                <br>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Agendamiento</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Fecha: {{fecha | date: 'dd/MM/YYYY'}}</li>
+                            <li class="list-group-item">Tema: {{tema}}</li>
+                            <li class="list-group-item">Jornada: {{jornada}}</li>
+                            <li class="list-group-item">Observacion: <br> {{observacion}}</li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+            <div class="col-md-4">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Datos del solicitante </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Nombre: {{nombreApe}} </li>
+                            <li class="list-group-item">{{numDoc}}</li>
+                            <li class="list-group-item">Tel: <br>{{tel}}</li>
+                            <li class="list-group-item">Email: {{email}}</li>
+                            <li class="list-group-item">Direccion: {{direc}}</li>
+                            <li class="list-group-item">Localidad: {{localidada}}</li>
+                            <li class="list-group-item">Nacionalidad: {{nacionalidada}}</li>
+                            <li class="list-group-item">Genero: {{genero}}</li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+            <div class="col-md-4">
+
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Datos del registro </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Registro: <br> {{nomreg}} {{apellreg}}</li>
+                            <li class="list-group-item">PMR INICIAL: <br> {{pmri}}</li>
+                            <li class="list-group-item">PMR SECUNDARIO: <br> {{pmrs}}</li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center; display: block">
+        <button type="button" class="btn btn-danger" (click)="modal.close()">Cerrar modulo</button>
+    </div>
+</ng-template>
+
+<button type="button btn-sm rounded-pill" (click)="openXLInfo(contenido)" class="btn btn-primary">
+    <span class="mdi mdi-file-find "></span>
+</button>

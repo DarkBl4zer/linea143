@@ -1,0 +1,98 @@
+<app-loading msg="Cargando información" *ngIf="loading"></app-loading>
+<app-loading msg="Cargando información" *ngIf="loadingData"></app-loading>
+<div *ngIf="!loadingData">
+    <div *ngIf="!loading" class="table-responsive">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <h5 class="card-header">Actual lista de cupos</h5>
+                    <div class="card-body">
+                        <table class="table table-sm" style="width: 100%;">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="footable-sortable">Unidad gestion<span class="footable-sort-indicator"></span></th>
+                                    <th class="footable-sortable">Tema<span class="footable-sort-indicator"></span></th>
+                                    <th class="footable-sortable">Jornada<span class="footable-sort-indicator"></span></th>
+                                    <th class="footable-sortable">cupos<span class="footable-sort-indicator"></span></th>
+                                    <th class="footable-sortable">Asignados<span class="footable-sort-indicator"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="small" *ngFor="let item of historicoCupos">
+                                    <td class="text-center"><span class="footable-toggle"></span>{{item.unigestion}}</td>
+                                    <td class="text-center">{{item.tema}}</td>
+                                    <td class="text-center">{{item.jornada}}</td>
+                                    <td class="text-center">{{item.cantidad}}</td>
+                                    <td class="text-center">{{item.asignaciones}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+
+                <div class="card">
+                    <h5 class="card-header">Registrar un nuevo cupo </h5>
+                    <div class="card-body">
+                        <app-loading msg="Enviando la información" *ngIf="loading"></app-loading>
+                        <form class="form-horizontal form-material" *ngIf="!loading" autocomplete="off" [formGroup]="formaD">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="uniGest" formControlName="uniGest" [class.is-invalid]="nombreInvalido('uniGest')">
+                                        <option value="" selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of unidadGesL" value="{{ item.id }}">{{ item.descripcion }}</option>
+                                    </select>
+                                        <label for="uniGest">1. Unidad de gestion *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="temaId" formControlName="temaId" [class.is-invalid]="nombreInvalido('temaId')">
+                                        <option selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of temaL" value="{{ item.id }}">{{ item.descripcion }}</option>
+                                    </select>
+                                        <label for="temaId">2. Tema *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="jornadaId" formControlName="jornadaId" [class.is-invalid]="nombreInvalido('jornadaId')">
+                                            <option selected>Seleccione una opcion</option>
+                                            <option *ngFor="let item of jornadaL" value="{{ item.id }}">{{ item.descripcion }}</option>
+                                        </select>
+                                        <label for="jornadaId">3. Jornada *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="cupos" formControlName="cupos" [class.is-invalid]="nombreInvalido('cupos')">
+                                        <label for="cupos">4. Cantidad de cupos *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary btn-block btn-rounded" type="button" (click)="guardar()">Registrar cupo</button>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

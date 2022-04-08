@@ -1,0 +1,259 @@
+<app-loading msg="Cargando información" *ngIf="loading">
+
+</app-loading>
+<form *ngIf="!loading" class="form-horizontal form-material" [formGroup]="formaE" (keydown.enter)="$event.preventDefault()" autocomplete="off" (ngSubmit)="guardar()">
+    <div class="card border border-2">
+        <div class="card-header bg-dark">
+            <h4 class="m-b-0 text-white"> Datos necesarios para solicitar una mesa de ayuda</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <select class="form-select" id="mesaDeAyuda" formControlName="mesaDeAyuda" (change)="cambioMesaAyuda($event.target.value)">
+                            <option value="" selected>Seleccione una opcion</option>
+                            <option *ngFor="let item of mesasAyuda" value="{{ item.dependencia }}">{{item.descripcion}}</option>
+                        </select>
+                        <label for="mesaDeAyuda">1. Seleccione la mesa de ayuda a solicitar*</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <app-loading msg="Cargando información" *ngIf="loadingTipoSol"></app-loading>
+                    <div *ngIf="!loadingTipoSol" class="form-floating">
+                        <select class="form-select" id="tipoSolicitud" formControlName="tipoSolicitud" (change)="cambioTipoSolicitud()">
+                            <option value="" selected>Seleccione una opcion</option>
+                            <option *ngFor="let item of listaTipoSolicitud" value="{{ item.solicitud }}">{{item.descripcion}}</option>
+                        </select>
+                        <label for="tipoSolicitud">2. Seleccione el tipo de solicitud*</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <app-loading msg="Cargando información" *ngIf="loadingTipoAsistencia"></app-loading>
+                    <div *ngIf="!loadingTipoAsistencia" class="form-floating">
+                        <select class="form-select" id="tipoAsistencia" formControlName="tipoAsistencia" (change)="cambioTipoAsistencia()">
+                            <option value="" selected>Seleccione una opcion</option>
+                            <option *ngFor="let item of listaTipoAsistencia" value="{{item.asistencia}}">{{item.descripcion}}</option>
+                        </select>
+                        <label for="tipoAsistencia">3. Seleccione la asistencia a solicitar*</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <app-loading msg="Cargando información" *ngIf="loadingTipoServ"></app-loading>
+                    <div *ngIf="!loadingTipoServ" class="form-floating">
+                        <select class="form-select" id="tipoServicio" formControlName="tipoServicio" (change)="cambioTipoServicio()">
+                            <option value="" selected>Seleccione una opcion</option>
+                            <option *ngFor="let item of listaTipoServicios" value="{{item.id_servicio}}">{{item.descripcion}}</option>
+                        </select>
+                        <label for="tipoServicio">4. Seleccione el servicio a solicitar*</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <app-loading msg="Cargando información" *ngIf="loadingElementos"></app-loading>
+
+            <div *ngIf="servicioG==9 && asistenciaG==9 && msyG==331">
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>4.1 Fecha del servicio *</mat-label>
+                            <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="fecha" [class.is-invalid]="nombreInvalido('fecha')">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker touchUi #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="horaSalida" formControlName="horaSalida" [class.is-invalid]="nombreInvalido('horaSalida')">
+                            <label for="horaSalida">4.2 Hora inicio (HH:MM)*</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="horaRegreso" formControlName="horaRegreso" [class.is-invalid]="nombreInvalido('horaRegreso')">
+                            <label for="horaRegreso">4.3 Hora inicio (HH:MM)*</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <textarea rows="20" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" cols="80" formControlName="detalleUsr" id="detalleUsr" [class.is-invalid]="nombreInvalido('detalleUsr')"></textarea>
+                            <label for="detalleUsr">4.4 Teléfonos de contacto*</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="servicioG==3 && asistenciaG==3 && msyG==331">
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>4.1 Facha de la visita *</mat-label>
+                            <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="fecha" [class.is-invalid]="nombreInvalido('fecha')">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker touchUi #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="horaSalida" formControlName="horaSalida" [class.is-invalid]="nombreInvalido('horaSalida')">
+                            <label for="horaSalida">4.2 Hora ingreso (HH:MM)*</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="horaRegreso" formControlName="horaRegreso" [class.is-invalid]="nombreInvalido('horaRegreso')">
+                            <label for="horaRegreso">4.3 Hora salida (HH:MM)*</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+            <div *ngIf="servicioG==2 && asistenciaG==2 && msyG==331">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>4.1 Fecha del servicio *</mat-label>
+                            <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="fecha" [class.is-invalid]="nombreInvalido('fecha')">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker touchUi #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="horaSalida" formControlName="horaSalida" [class.is-invalid]="nombreInvalido('horaSalida')">
+                            <label for="horaSalida">4.2 Hora de salida (HH:MM)*</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="horaRegreso" formControlName="horaRegreso" [class.is-invalid]="nombreInvalido('horaRegreso')">
+                            <label for="horaRegreso">4.3 Hora de regreso (HH:MM)*</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <textarea rows="20" class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()" cols="80" formControlName="detalleUsr" id="detalleUsr" [class.is-invalid]="nombreInvalido('detalleUsr')"></textarea>
+                            <label for="detalleUsr">4.4 Nombres y numeros funcionarios a transportar*</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select class="form-select" id="operarivoNoc" formControlName="operarivoNoc">
+                            <option value="" selected>4.5 Seleccione una opcion</option>
+                            <option value="si">SI</option>
+                            <option value="no">NO</option>
+                            
+                        </select>
+                            <label for="operarivoNoc">¿El servicio corresponde a un operativo nocturno realizado en ejercicio de las funciones de Ministerio Público?*</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div class="row" *ngIf="!msyRecursosFisicos">
+                <div class="col-md-6">
+                    <app-loading msg="Cargando información" *ngIf="loadingTipoServ"></app-loading>
+                    <div *ngIf="!loadingTipoServ" class="form-floating">
+                        <select class="form-select" id="elemento" formControlName="elementoDesc">
+                            <option value="" selected>Seleccione una opcion</option>
+                            <option *ngFor="let item of listaElementos" value="{{item.descripcion}}">{{item.descripcion}}</option>
+                        </select>
+                        <label for="elemento">4.1 Seleccione el elemento a adicionar*</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="cantidadElementos" formControlName="elementoDescCan">
+                        <label for="cantidadElementos">4.2 Cantidad de elementos*</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-info btn-circle" (click)="adicionarElemnto()"><i class="fa fa-check"></i> </button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="numCel" formControlName="numCel" [class.is-invalid]="nombreInvalido('numCel')">
+                        <label for="numCel">5. Numero celular*</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="exten" formControlName="exten" [class.is-invalid]="nombreInvalido('exten')">
+                        <label for="exten">6. Numero Extension*</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-floating">
+                        <textarea class="form-control form-control-sm" oninput="this.value=this.value.toUpperCase()" formControlName="detalleSol" id="detalleSol" [class.is-invalid]="nombreInvalido('detalleSol')" style="height:110px;">{{detalleServicio}}</textarea>
+                        <label for="detalleSol">7. Detalle de la solicitud *</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-primary" role="alert">
+                        Para cualquier archivo que requiera adjuntar valide previamente lo siguiente:
+                        <ul>
+                            <li>NO puede superar DIEZ (10) Mb de peso/tamaño.</li>
+                            <li>Tipo/Formato de archivo permitidos: [.doc], [.docx], [.pdf], [.xls], [.xlsx], [.zip], [.rar], [.png], [.jpg].</li>
+                            <li>El nombre del archivo debe ser de máximo 40 caracteres.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <label for="Fichier1" class="form-label">8) Documento complementario a la solciitud </label>
+                                <input class="form-control" type="file" id="Fichier1" (change)="onFileChangeArc($event)" #fileInput>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ribbon-wrapper card">
+                        <div class="ribbon ribbon-bookmark ribbon-default">Informacion referente al servicio solicitado</div>
+                        <p class="ribbon-content">° La solicitud requiere una aprobacion: {{aprobacionServicio}}</p>
+                        <p class="ribbon-content">° Dias necesarios para concluir la solicitud: {{tiempoServicio}} </p>
+                        <p class="ribbon-content">° Formato necesario para darle continuidad a la solicitud: {{formatoServicio}} </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button class="btn btn-primary btn-block btn-rounded" type="submit">Registrar Solicitud</button>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+</form>

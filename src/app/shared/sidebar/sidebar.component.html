@@ -1,0 +1,86 @@
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Left Sidebar - style you can find in sidebar.scss  -->
+<!-- ============================================================== -->
+<aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav" *ngIf="loadData">
+            <ul id="sidebarnav">
+                <li class="user-profile">
+                    <a class="has-arrow waves-effect waves-dark" data-bs-toggle="collapse" href="#collapsePerfilUsr" role="button" aria-expanded="false" aria-controls="collapsePerfilUsr"><img [src]="imagen" alt="user" /><span class="hide-menu "> {{nombresUsr}}  </span></a>
+                    <ul class="collapse" id="collapsePerfilUsr" *ngFor="let item of sidebarService.menuG">
+                        <li *ngFor="let subMenuItem of item.submenu ">
+                            <a [routerLink]="subMenuItem.url" routerLinkActive="active " [routerLinkActiveOptions]="{ exact: true } "> {{ subMenuItem.titulo }} </a>
+                        </li>
+                        <li><a href="https://apps.personeriabogota.gov.co/sinproc/menuBootstrap.php " aria-expanded="false "> ° SINPROC </a></li>
+                    </ul>
+                </li>
+                <li class="nav-devider "></li>
+                <li class="nav-small-cap ">APLICACIONES</li>
+
+                <li  *ngFor="let item of sidebarService.menuUct"> 
+                    <a *ngIf="dependencia===394" class="has-arrow waves-effect waves-dark" data-bs-toggle="collapse" href="#{{item.titulo}}" role="button" aria-expanded="false" [attr.aria-controls]="item.titulo">
+                        <i [class]="item.icon"></i>
+                        <span class="hide-menu"> 
+                            {{ item.titulo }} 
+                            <span class="label label-rouded label-themecolor pull-right">
+                                {{ item.submenu.length }}
+                            </span>
+                        </span>
+                    </a>
+
+                    <ul *ngIf="dependencia===394" class="collapse" id="{{item.titulo}}">
+                        <li *ngFor="let subMenuItem of item.submenu ">
+                            <a [routerLink]="subMenuItem.url " routerLinkActive="active " [routerLinkActiveOptions]="{ exact: true } "> {{ subMenuItem.titulo }} </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li *ngFor="let item of sidebarService.menuMsy ">
+                    <a class="has-arrow waves-effect waves-dark" data-bs-toggle="collapse" href="#{{item.titulo}}" role="button" aria-expanded="false" [attr.aria-controls]="item.titulo">
+                        <i [class]="item.icon"></i>
+                        <span class="hide-menu"> 
+                            {{ item.titulo }} 
+                            <span class="label label-rouded label-themecolor pull-right">
+                                {{ item.submenu.length }}
+                            </span>
+                        </span>
+                    </a>
+
+                    <ul class="collapse" id="{{item.titulo}}">
+                        <li *ngFor="let subMenuItem of item.submenu ">
+                            <a [routerLink]="subMenuItem.url " routerLinkActive="active " [routerLinkActiveOptions]="{ exact: true } "> {{ subMenuItem.titulo }} </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li *ngFor="let item of sidebarService.menuSistema ">
+                    <a class="has-arrow waves-effect waves-dark" data-bs-toggle="collapse" href="#{{item.titulo}}" role="button" aria-expanded="false" [attr.aria-controls]="item.titulo">
+                        <i [class]="item.icon"></i>
+                        <span class="hide-menu"> 
+                            {{ item.titulo }} 
+                            <span class="label label-rouded label-themecolor pull-right">
+                                {{ item.submenu.length }}
+                            </span>
+                        </span>
+                    </a>
+
+                    <ul class="collapse" id="{{item.titulo}}">
+                        <li *ngFor="let subMenuItem of item.submenu ">
+                            <a [routerLink]="subMenuItem.url " routerLinkActive="active " [routerLinkActiveOptions]="{ exact: true } "> {{ subMenuItem.titulo }} </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+<!-- ============================================================== -->
+<!-- End Left Sidebar - style you can find in sidebar.scss  -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->

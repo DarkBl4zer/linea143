@@ -1,0 +1,46 @@
+<ng-template #contenido let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Histórico del ciudadano con identificación: {{numId}}</h4>
+        <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-loading msg="Cargando información" *ngIf="loading"></app-loading>
+        <div *ngIf="!loading" class="table-responsive">
+            <table class="table table-sm" data-page-size="10" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="footable-sortable">Solicitud<span class="footable-sort-indicator"></span></th>
+                        <th class="footable-sortable">Tramite<span class="footable-sort-indicator"></span></th>
+                        <th class="footable-sortable">Vigencia<span class="footable-sort-indicator"></span></th>
+                        <th class="footable-sortable">Fecha Registro<span class="footable-sort-indicator"></span></th>
+                        <th class="footable-sortable">Estado<span class="footable-sort-indicator"></span></th>
+                        <th class="footable-sortable">Objeto / Motivo<span class="footable-sort-indicator"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="small" *ngFor="let item of historico">
+                        <td><span class="footable-toggle"></span>{{item.num_solicitud}}</td>
+                        <td>{{item.nom_tramite}}</td>
+                        <td>{{item.vigencia}}</td>
+                        <td>{{item.fec_solicitud_tramite }}</td>
+                        <td>{{item.estado_tramite}}</td>
+                        <td>{{ item.texto08 | slice:0:110 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.close()">Cerrar</button>
+    </div>
+</ng-template>
+
+<div class="dt-buttons">
+    <button type="button" class="btn btn-outline-primary btn-sm" (click)="openXL(contenido)">
+        Historial  <span class="badge bg-secondary" > <span class="mdi mdi-account-search"></span></span>
+    </button>
+</div>

@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Lista de solicitudes </h4>
+                <h6 class="card-subtitle">Solicitudes pendientes por su agendamiento</h6>
+                <app-loading msg="Cargando solicitudes activas" *ngIf="datosCargados"></app-loading>
+                <div *ngIf="!datosCargados" class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" class="table" class="table m-t-30 table-hover no-wrap contact-list footable-loaded footable" data-page-size="10">
+                        <thead>
+                            <tr class="text-small small">
+                                <th class="footable-sortable">Solicitud #<span class="footable-sort-indicator"></span></th>
+                                <th class="footable-sortable">Ciudadano<span class="footable-sort-indicator"></span></th>
+                                <th class="footable-sortable">Telefonos<span class="footable-sort-indicator"></span></th>
+                                <th class="footable-sortable">Tema<span class="footable-sort-indicator"></span></th>
+                                <th class="footable-sortable">Jornada<span class="footable-sort-indicator"></span></th>
+                                <th class="footable-sortable">Fecha <br> Agendamiento<span class="footable-sort-indicator"></span></th>
+                                <th class="footable-sortable">Unidad <br> gestion<span class="footable-sort-indicator"></span></th>
+                                <th class="footable-sortable">Agendar<span class="footable-sort-indicator"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="small" *ngFor="let item of historico">
+                                <td><span class="footable-toggle"></span>{{item.num_solicitud}}</td>
+                                <td>{{item.texto01}} {{item.texto02}} {{item.texto03}} {{item.texto04}}</td>
+                                <td>{{item.texto05}} - {{item.texto06}}</td>
+                                <td>{{item.descripcion}}</td>
+                                <td>{{item.jornada}}</td>
+                                <td>{{item.fecha02 | date: 'dd/MM/YYYY'}}</td>
+                                <td>{{item.unidadges}}</td>
+                                <td>
+                                    <app-modal [sinproc]="item.num_solicitud"></app-modal>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2">
+                                    <!--  <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#add-contact">Reporte Graficador</button> -->
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

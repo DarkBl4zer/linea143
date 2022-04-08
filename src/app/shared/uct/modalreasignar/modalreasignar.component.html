@@ -1,0 +1,73 @@
+<ng-template #contenido let-modal>
+    <div class="modal-header label-themecolor" style="text-align: center; display: block ruby; ">
+        <h4 class="modal-title" style="color: white;">
+            SINPROC #{{sinproc}}
+        </h4>
+        <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <app-loading msg="Cargando la información del caso" *ngIf="loadingData"></app-loading>
+    </div>
+
+    <div class="modal-body">
+        <div *ngIf="!loadingData" class="row">
+            <div class="col-md-6">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Datos básicos de la solicitud </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Forma de ingreso: {{formaIng}}</li>
+                            <li class="list-group-item">Unidad de gestion: {{unidadGes}}</li>
+                        </ul>
+                    </div>
+                </li>
+                <br>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Agendamiento</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Fecha: {{fecha | date: 'dd/MM/YYYY'}}</li>
+                            <li class="list-group-item">Tema: {{tema}}</li>
+                            <li class="list-group-item">Jornada: {{jornada}}</li>
+                            <li class="list-group-item">Observacion: <br> {{observacion}}</li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+            <div class="col-md-6">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Datos del solicitante </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Nombre: {{nombreApe}} </li>
+                            <li class="list-group-item">{{numDoc}}</li>
+                            <li class="list-group-item">Tel: {{tel}}</li>
+                            <li class="list-group-item">Email: {{email}}</li>
+                            <li class="list-group-item">Direccion: {{direc}}</li>
+                            <li class="list-group-item">Localidad: {{localidada}}</li>
+                            <li class="list-group-item">Nacionalidad: {{nacionalidada}}</li>
+                            <li class="list-group-item">Genero: {{genero}}</li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal form-material" (keydown.enter)="$event.preventDefault()" autocomplete="off" [formGroup]="formaD" (ngSubmit)="guardar()">
+                    <div class="form-floating">
+                        <textarea rows="4" cols="50" class="form-control" formControlName="observacionC" id="observacionC" [class.is-invalid]="nombreInvalido('observacionC')"></textarea>
+                        <label for="observacionC">1. Motivo del regreso </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center; display: block">
+        <button type="button" class="btn btn-danger" (click)="modal.close()">Cerrar modulo</button>
+    </div>
+</ng-template>
+
+<div class="dt-buttons">
+    <span class="label label-primary" (click)="openXL(contenido)"><span class="mdi mdi-folder-multiple"></span> Regresar a bandeja</span>
+</div>

@@ -1,0 +1,265 @@
+<form class="m-t-15">
+    <div class="card card-outline-danger">
+        <div class="card-body">
+            <app-loading msg="Cargando información" *ngIf="loading"></app-loading>
+
+
+            <form *ngIf="!loading" class="form-horizontal form-material" (keydown.enter)="$event.preventDefault()" autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
+                <!--Fomra de ingreso y datos basicos -->
+                <div class="card border border-2">
+                    <div class="card-header ">
+                        Datos basicos de la solicitud
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="formaIng" formControlName="formaIng" [class.is-invalid]="nombreInvalido('formaIng')">
+                                        <option value="" selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of fomraIng" value="{{ item.id }}">{{ item.descripcion }}</option>
+                                    </select>
+                                    <label for="formaIng">1. Forma de ingreso *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="tipoAten" formControlName="tipoAten" (change)="cambioTipoAten($event.target.value)" [class.is-invalid]="nombreInvalido('tipoAten')">
+                                        <option value="" selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of atencion" value="{{ item.id }}">{{ item.descripcion }}</option>
+                                    </select>
+                                    <label for="tipoAten">2. Tipo de atencion *</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="uniGest" formControlName="uniGest" (change)="cambioUniGes()">
+                                        <option value="" selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of unidadGesL" value="{{ item.id }}">{{ item.descripcion }}</option>
+                                    </select>
+                                    <label for="uniGest">3. Unidad de gestion *</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border border-2">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-md-6">
+                                Datos del solicitante
+                            </div>
+                            <div class="col-md-6 text-right" *ngIf="histUsr">
+                                <app-modalhistoricosol [numId]="numId"></app-modalhistoricosol>
+                            </div>
+                        </div>
+                    </div>
+                    <app-loading msg="Consultado datos del ciudadno" *ngIf="loadingUsr"></app-loading>
+                    <div class="card-body" *ngIf="!loadingUsr">
+                        <!--Fin fomra de ingreso y datos basicos  -->
+                        <!-- Datos personales del solicitante-->
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" id="tipoId" formControlName="tipoId" [class.is-invalid]="nombreInvalido('tipoId')" (change)="cambioTipoDoc()">
+                                        <option selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of tipoDoc" value="{{ item.sicidtipodocumentoidentidad }}">{{ item.sictipodocumentoidentidad }}</option>
+                                    </select>
+                                    <label for="tipoId">1. Tipo de identificacion *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="numId" formControlName="numId" [class.is-invalid]="nombreInvalido('numId')" (keyup.enter)="changeCc($event.target.value)" (blur)="changeCc($event.target.value)">
+                                    <label for="numId">2. No. de identificación * </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-3 ">
+                                <div class="form-floating mb-3">
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="primNom" formControlName="primNom" [class.is-invalid]="nombreInvalido('primNom')">
+                                    <label for="primNom">3. Primer nombre *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="segNom" formControlName="segNom">
+                                    <label for="segNom">4. Segundo nombre</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="primApe" formControlName="primApe" [class.is-invalid]="nombreInvalido('primApe')">
+                                    <label for="primApe">5. Primer apellido *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="segApe" formControlName="segApe">
+                                    <label for="segApe">6. Segundo apellido</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="telUno" formControlName="telUno" [class.is-invalid]="nombreInvalido('telUno')">
+                                    <label for="telUno">7. Telefono 1 *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="telDos" formControlName="telDos">
+                                    <label for="telDos">8. Telefono 2</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="email" formControlName="email" [class.is-invalid]="nombreInvalido('email')">
+                                    <label for="email">9. Correo electronico *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" id="direc" formControlName="direc" [class.is-invalid]="nombreInvalido('direc')">
+                                    <label for="direc">10. Direccion *</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="localidad" formControlName="localidad" [class.is-invalid]="nombreInvalido('localidad')">
+                                        <option selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of localidad" value="{{ item.codloc }}">{{ item.descloc }}</option>
+                                    </select>
+                                    <label for="localidad">11. Localidad *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="nacionalidad" formControlName="nacionalidad" [class.is-invalid]="nombreInvalido('nacionalidad')">
+                                        <option selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of pais" value="{{ item.sicidpais }}">{{ item.sicpais }}</option>
+                                    </select>
+                                    <label for="nacionalidad">12. Nacionalidad *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="genero" formControlName="genero" [class.is-invalid]="nombreInvalido('genero')">
+                                        <option selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of generoL" value="{{ item.id }}">{{ item.descripcion }}</option>
+                                    </select>
+                                    <label for="genero">13. Genero *</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Fin datos personales del solicitante-->
+                    </div>
+                </div>
+                <!--Fin fomra de ingreso y datos basicos -->
+
+                <div *ngIf="tipoAtenExt">
+                    <div class="card border border-2">
+                        <div class="card-header ">
+                            Agendamiento
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width" appearance="fill">
+                                        <mat-label>1.Fecha *</mat-label>
+                                        <input matInput [matDatepicker]="picker" (dateChange)="cambioFecha('change', $event)" [min]="minDate" formControlName="fecha" [class.is-invalid]="nombreInvalido('fecha')">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker touchUi #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="temaId" formControlName="temaId" (change)="cambioTema($event.target.value)" [class.is-invalid]="nombreInvalido('temaId')">
+                                            <option selected>Seleccione una opcion</option>
+                                            <option *ngFor="let item of temaL" value="{{ item.id }}">{{ item.descripcion }}</option>
+                                        </select>
+                                        <label for="temaId">2. Tema *</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <app-loading msg="Cargando lista de Cupos" *ngIf="loadingCupo"></app-loading>
+                                    <div class="form-floating" *ngIf="!loadingCupo">
+                                        <select class="form-select" id="jornadaId" formControlName="jornadaId" [class.is-invalid]="nombreInvalido('jornadaId')">
+                                            <option selected>Seleccione una opcion</option>
+                                            <option *ngFor="let item of jornadaL" value="{{ item.id }}">{{ item.descripcion }} ({{ item.cantidad }})</option>
+                                        </select>
+                                        <label for="jornadaId">3. Jornada *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Fomra de ingreso y datos basicos -->
+                <div class="card border border-2">
+                    <div class="card-header ">
+                        Registro PMR
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="grupGes" formControlName="grupGes" (change)="cambioGrupGes()" [class.is-invalid]="nombreInvalido('grupGes')">
+                                        <option selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of pmr" value="{{ item.id_grupo }}">{{ item.descripcion_grupo }}</option>
+                                    </select>
+                                    <label for="grupGes">1. Grupo de gestion</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="pmrI" formControlName="pmrI" (change)="cambioPmrI($event.target.value)" [class.is-invalid]="nombreInvalido('pmrI')">
+                                        <option selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of pmrI" value="{{ item.id_indicador_principal }}">{{ item.nombre_indicador_principal }}</option>
+                                    </select>
+                                    <label for="pmrI">2. PMR inicial*</label>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <app-loading msg="Cargando lista PMR secundario" *ngIf="loadingPmrS"></app-loading>
+                                <div class="form-floating" *ngIf="!loadingPmrS">
+                                    <select class="form-select" id="pmrS" formControlName="pmrS" [class.is-invalid]="nombreInvalido('pmrS')">
+                                        <option selected>Seleccione una opcion</option>
+                                        <option *ngFor="let item of pmrS" value="{{ item.id_indicador_secundario }}">{{ item.nombre_indicador_secundario }}</option>
+                                    </select>
+                                    <label for="jornadaId">3. PMR secundario *</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <textarea rows="4" oninput="this.value = this.value.toUpperCase()" cols="50" class="form-control" formControlName="observacion" id="observacion" [class.is-invalid]="nombreInvalido('observacion')"></textarea>
+                                    <label for="observacion">4. Observaciónes </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block btn-rounded" type="submit">Registrar información</button>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+            </form>
+        </div>
+    </div>

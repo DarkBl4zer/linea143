@@ -1,0 +1,45 @@
+
+<app-loading msg="Cargando información" *ngIf="loading"></app-loading>
+
+<div class="row">
+    <div class="col-md-12" >
+        <div class="card">
+            <h5 class="card-header bg-primary" style="color: #fff;">Solicitudes Activas</h5>
+            <div class="card-body" style="color: #fff;">
+                <table *ngIf="!loading" id="table" datatable [dtOptions]="dtOptions" class="table table-sm" data-page-size="10" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="footable-sortable">Detalle de la solicitud<span class="footable-sort-indicator"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="small" *ngFor="let item of historicActivos">
+                            <td>Mesa de ayuda: {{ item.numMesaAyuda}} - Sinproc: {{item.numSolicitud}} <br>{{item.responsable}} <br> {{item.dependenciaResp}} <br> fecha registro: {{item.fechaRegistro}} <br>Solicitud: {{item.detalleSolicitud}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <h5 class="card-header bg-secondary" style="color: #fff;">Solicitudes Finalizadas</h5>
+            <div class="card-body" style="color: #fff;">
+                <table *ngIf="!loading" id="table2" datatable [dtOptions]="dtOptions" class="table table-sm" data-page-size="10" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="footable-sortable">Detalle de la solicitud<span class="footable-sort-indicator"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="small" *ngFor="let item of historicoFinalizados">
+                            <td>Mesa de ayuda: {{ item.numMesaAyuda}} - Sinproc: {{item.numSolicitud}} <br>{{item.responsable}} <br> {{item.dependenciaResp}}<br> fecha registro: {{item.fechaRegistro}} <br>Solicitud: {{item.detalleSolicitud}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
